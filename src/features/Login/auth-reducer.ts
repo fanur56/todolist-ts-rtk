@@ -4,13 +4,11 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AppThunk} from "app/store";
 import {appActions} from "app/app-reducer";
 
-const initialState: InitialStateType = {
-  isLoggedIn: false
-}
-
 const slice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: {
+      isLoggedIn: false
+  },
   reducers: {
     setIsLoggedIn: (state, action: PayloadAction<{isLoggedIn: boolean}>) => {
       state.isLoggedIn = action.payload.isLoggedIn
@@ -51,9 +49,4 @@ export const logoutTC = (): AppThunk => (dispatch) => {
         .catch((error) => {
             handleServerNetworkError(error, dispatch)
         })
-}
-
-// types
-type InitialStateType = {
-    isLoggedIn: boolean
 }
