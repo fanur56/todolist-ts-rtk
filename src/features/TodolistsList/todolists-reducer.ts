@@ -44,7 +44,6 @@ const slice = createSlice({
 
 export const todolistsReducer = slice.reducer
 export const todolistsActions = slice.actions
-console.log(todolistsActions)
 
 // thunks
 export const fetchTodolistsTC = (): AppThunk => {
