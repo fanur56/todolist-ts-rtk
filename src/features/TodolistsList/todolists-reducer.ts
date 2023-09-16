@@ -61,14 +61,11 @@ export const fetchTodolistsTC = (): AppThunk => {
 }
 export const removeTodolistTC = (todolistId: string): AppThunk => {
   return (dispatch) => {
-    //изменим глобальный статус приложения, чтобы вверху полоса побежала
     dispatch(appActions.setAppStatus({status: 'loading'}))
-    //изменим статус конкретного тудулиста, чтобы он мог задизеблить что надо
     dispatch(todolistsActions.changeTodolistEntityStatus({id: todolistId, status: 'loading'}))
     todolistsAPI.deleteTodolist(todolistId)
-      .then((res) => {
+      .then(() => {
         dispatch(todolistsActions.removeTodolist({id: todolistId}))
-        //скажем глобально приложению, что асинхронная операция завершена
         dispatch(appActions.setAppStatus({status: 'succeeded'}))
       })
   }
@@ -86,7 +83,7 @@ export const addTodolistTC = (title: string): AppThunk => {
 export const changeTodolistTitleTC = (id: string, title: string): AppThunk => {
   return (dispatch) => {
     todolistsAPI.updateTodolist(id, title)
-      .then((res) => {
+      .then(() => {
         dispatch(todolistsActions.changeTodolistTitle({id, title}))
       })
   }
