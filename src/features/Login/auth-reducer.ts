@@ -43,7 +43,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
             if (res.data.resultCode === 0) {
                 dispatch(authActions.setIsLoggedIn({isLoggedIn: false}))
                 dispatch(appActions.setAppStatus({status: 'succeeded'}))
-                dispatch(clearTasksAndTodolists())
+                dispatch(clearTasksAndTodolists({tasks: {}, todolists: []}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
