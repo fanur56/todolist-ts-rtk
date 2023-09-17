@@ -23,13 +23,16 @@ const slice = createSlice({
             todolistId: string
         }>) => {
             const tasksForTodolist = state[action.payload.todolistId]
-            const index = tasksForTodolist.findIndex(task=>task.id === action.payload.taskId)
+            const index = tasksForTodolist.findIndex(task => task.id === action.payload.taskId)
             if (index !== -1) {
                 tasksForTodolist[index] = {...tasksForTodolist[index], ...action.payload.model}
             }
         },
         setTasks: (state, action: PayloadAction<{ tasks: Array<TaskType>, todolistId: string }>) => {
             state[action.payload.todolistId] = action.payload.tasks
+        },
+        clearTasks: () => {
+            return {}
         }
     },
     extraReducers: (builder) => {
