@@ -48,7 +48,7 @@ test('correct task should be deleted from correct array', () => {
 });
 test('correct task should be added to correct array', () => {
     //const action = addTaskAC("juce", "todolistId2");
-    const action = tasksActions.addTask({
+    const action = taskThunks.addTaskTC.fulfilled({
         task: {
             todoListId: "todolistId2",
             title: "juce",
@@ -61,7 +61,7 @@ test('correct task should be added to correct array', () => {
             startDate: "",
             id: "id exists"
         }
-    });
+    }, 'requestId', { todolistId: 'todolistId', title: 'title' });
 
     const endState = tasksReducer(startState, action)
 
