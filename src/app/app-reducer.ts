@@ -35,7 +35,6 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
       dispatch(authActions.setIsLoggedIn({isLoggedIn: true}));
     } else {
     }
-
     dispatch(appActions.setAppInitialized({ isInitialized: true }));
   })
 }
