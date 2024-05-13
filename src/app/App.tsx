@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { authThunks } from "features/Login/auth-reducer";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type PropsType = {
   demo?: boolean;
@@ -28,7 +29,7 @@ function App({ demo = false }: PropsType) {
   const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status);
   const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized);
   const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(authThunks.initializeApp());
