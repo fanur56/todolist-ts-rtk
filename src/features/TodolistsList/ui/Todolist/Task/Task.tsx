@@ -2,21 +2,23 @@ import React, { ChangeEvent, useCallback } from "react";
 import { Checkbox, IconButton } from "@mui/material";
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { Delete } from "@mui/icons-material";
-import { TaskType } from "features/TodolistsList/todolistsApi";
 import { TaskStatuses } from "common/enum/enum";
+import { TaskType } from "features/TodolistsList/api/tasks/tasksApi.types";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { removeTaskTC } from "features/TodolistsList/model/tasks/tasks-reducer";
 
 type TaskPropsType = {
   task: TaskType;
   todolistId: string;
   changeTaskStatus: (id: string, status: TaskStatuses, todolistId: string) => void;
   changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void;
-  removeTask: (taskId: string, todolistId: string) => void;
 };
+
 export const Task = React.memo((props: TaskPropsType) => {
-  const onClickHandler = useCallback(
-    () => props.removeTask(props.task.id, props.todolistId),
-    [props.task.id, props.todolistId],
-  );
+  const dispatch = useAppDispatch();
+  const removeTaskHandler = () => {
+    dispatch(removeTaskTC(props.task.id, props.todolistId));
+  };
 
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +44,7 @@ export const Task = React.memo((props: TaskPropsType) => {
       <Checkbox checked={props.task.status === TaskStatuses.Completed} color="primary" onChange={onChangeHandler} />
 
       <EditableSpan value={props.task.title} onChange={onTitleChangeHandler} />
-      <IconButton onClick={onClickHandler}>
+      <IconButton onClick={removeTaskHandler}>
         <Delete />
       </IconButton>
     </div>

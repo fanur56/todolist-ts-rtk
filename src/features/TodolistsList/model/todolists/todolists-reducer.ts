@@ -3,7 +3,8 @@ import { handleServerNetworkError } from "common/utils/handleServerNetworkError"
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ClearTaskAndTodolistType, clearTasksAndTodolists } from "common/actions/common.actions";
-import { todolistsAPI, TodolistType } from "features/TodolistsList/todolistsApi";
+import { todolistsAPI } from "features/TodolistsList/api/todolists/todolistsApi";
+import { TodolistType } from "features/TodolistsList/api/todolists/todolistsApi.types";
 
 const initialState: Array<TodolistDomainType> = [];
 

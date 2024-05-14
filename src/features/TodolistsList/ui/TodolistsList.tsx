@@ -9,11 +9,11 @@ import {
   removeTodolistTC,
   todolistsActions,
   TodolistDomainType,
-} from "./todolists-reducer";
-import { removeTaskTC, TasksStateType, taskThunks } from "./tasks-reducer";
+} from "features/TodolistsList/model/todolists/todolists-reducer";
+import { TasksStateType, taskThunks } from "features/TodolistsList/model/tasks/tasks-reducer";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
-import { Todolist } from "./Todolist/Todolist";
+import { Todolist } from "features/TodolistsList/ui/Todolist/Todolist";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { TaskStatuses } from "common/enum/enum";
@@ -35,10 +35,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     }
     const thunk = fetchTodolistsTC();
     dispatch(thunk);
-  }, []);
-
-  const removeTask = useCallback(function (id: string, todolistId: string) {
-    dispatch(removeTaskTC(id, todolistId));
   }, []);
 
   const addTask = useCallback(function (title: string, todolistId: string) {
@@ -106,7 +102,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
                 <Todolist
                   todolist={tl}
                   tasks={allTodolistTasks}
-                  removeTask={removeTask}
                   changeFilter={changeFilter}
                   addTask={addTask}
                   changeTaskStatus={changeStatus}
