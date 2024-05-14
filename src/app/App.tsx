@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from "react";
-import "./App.css";
 import { TodolistsList } from "features/TodolistsList/ui/TodolistsList";
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar";
 import { useSelector } from "react-redux";
