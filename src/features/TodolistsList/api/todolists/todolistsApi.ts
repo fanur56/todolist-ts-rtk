@@ -12,9 +12,9 @@ export const todolistsAPI = {
     });
   },
   deleteTodolist(id: string) {
-    return instance.delete<ResponseType>(`todo-lists/${id}`);
+    return instance.delete<BaseResponseType>(`todo-lists/${id}`);
   },
   updateTodolist(id: string, title: string) {
-    return instance.put<ResponseType>(`todo-lists/${id}`, { title: title });
+    return instance.put<BaseResponseType>(`todo-lists/${id}`, { title: title });
   },
 };

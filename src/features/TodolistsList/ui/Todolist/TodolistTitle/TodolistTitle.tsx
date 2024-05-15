@@ -1,12 +1,8 @@
 import { EditableSpan } from "common/components/EditableSpan/EditableSpan";
 import { IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-import React from "react";
-import {
-  changeTodolistTitleTC,
-  removeTodolistTC,
-  TodolistDomainType,
-} from "features/TodolistsList/model/todolists/todolists-reducer";
+import React, { useCallback } from "react";
+import { TodolistDomainType, todolistsThunks } from "features/TodolistsList/model/todolists/todolists-reducer";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type Props = {
@@ -15,16 +11,20 @@ type Props = {
 
 export const TodolistTitle = ({ todolist }: Props) => {
   const dispatch = useAppDispatch();
+  const { removeTodolist, changeTodolistTitle } = todolistsThunks;
 
-  const removeTodolistHandler = () => dispatch(removeTodolistTC(todolist.id));
+  const removeTodolistHandler = () => dispatch(removeTodolist(todolist.id));
 
-  const changeTodolistTitleHandler = (title: string) => {
-    dispatch(changeTodolistTitleTC(todolist.id, title));
-  };
+  const changeTodolistTitleCallback = useCallback(
+    (title: string) => {
+      dispatch(changeTodolistTitle({ id: todolist.id, title }));
+    },
+    [todolist.id],
+  );
 
   return (
     <h3>
-      <EditableSpan value={todolist.title} onChange={changeTodolistTitleHandler} />
+      <EditableSpan value={todolist.title} onChange={changeTodolistTitleCallback} />
       <IconButton onClick={removeTodolistHandler} disabled={todolist.entityStatus === "loading"}>
         <Delete />
       </IconButton>

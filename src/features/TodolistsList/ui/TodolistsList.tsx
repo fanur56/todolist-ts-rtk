@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppRootStateType } from "app/store";
-import {
-  addTodolistTC,
-  fetchTodolistsTC,
-  TodolistDomainType,
-} from "features/TodolistsList/model/todolists/todolists-reducer";
+import { TodolistDomainType, todolistsThunks } from "features/TodolistsList/model/todolists/todolists-reducer";
 import { TasksStateType } from "features/TodolistsList/model/tasks/tasks-reducer";
 import { Grid, Paper } from "@mui/material";
 import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
@@ -21,6 +17,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>((state) => state.todolists);
   const tasks = useSelector<AppRootStateType, TasksStateType>((state) => state.tasks);
   const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const { fetchTodolists, addTodolist } = todolistsThunks;
 
   const dispatch = useAppDispatch();
 
@@ -28,14 +25,12 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
     if (demo || !isLoggedIn) {
       return;
     }
-    const thunk = fetchTodolistsTC();
-    dispatch(thunk);
+    dispatch(fetchTodolists());
   }, []);
 
   const addTodolistCallback = useCallback(
     (title: string) => {
-      const thunk = addTodolistTC(title);
-      dispatch(thunk);
+      return dispatch(addTodolist(title));
     },
     [dispatch],
   );
@@ -43,7 +38,6 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   if (!isLoggedIn) {
     return <Navigate to={"/login"} />;
   }
-
   return (
     <>
       <Grid container style={{ padding: "20px" }}>
