@@ -1,15 +1,13 @@
 import { Button } from "@mui/material";
-import React, { useCallback } from "react";
+import React from "react";
 import { TodolistDomainType, todolistsActions } from "features/TodolistsList/model/todolists/todolists-reducer";
-import { TaskType } from "features/TodolistsList/api/tasks/tasksApi.types";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type Props = {
   todolist: TodolistDomainType;
-  tasks: TaskType[];
 };
 
-export const FilterTasksButton = ({ todolist, tasks }: Props) => {
+export const FilterTasksButton = ({ todolist }: Props) => {
   const dispatch = useAppDispatch();
 
   const onAllClickHandler = () => dispatch(todolistsActions.changeTodolistFilter({ id: todolist.id, filter: "all" }));

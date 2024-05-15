@@ -8,7 +8,7 @@ import {
   TodolistDomainType,
 } from "features/TodolistsList/model/todolists/todolists-reducer";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { taskThunks } from "features/TodolistsList/model/tasks/tasks-reducer";
 import { TaskStatuses } from "common/enum/enum";
@@ -70,7 +70,7 @@ export const Todolist = React.memo(function ({ demo = false, ...props }: PropsTy
       <AddItemForm addItem={addTaskCallback} disabled={props.todolist.entityStatus === "loading"} />
       <div>{tasksForTodolist?.map((t) => <Task key={t.id} task={t} todolistId={props.todolist.id} />)}</div>
       <div style={{ paddingTop: "10px" }}>
-        <FilterTasksButton todolist={props.todolist} tasks={props.tasks} />
+        <FilterTasksButton todolist={props.todolist} />
       </div>
     </div>
   );
