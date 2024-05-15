@@ -1,6 +1,10 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { TodolistDomainType, todolistsActions } from "features/TodolistsList/model/todolists/todolists-reducer";
+import {
+  FilterValuesType,
+  TodolistDomainType,
+  todolistsActions,
+} from "features/TodolistsList/model/todolists/todolists-reducer";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 type Props = {
@@ -10,29 +14,29 @@ type Props = {
 export const FilterTasksButton = ({ todolist }: Props) => {
   const dispatch = useAppDispatch();
 
-  const onAllClickHandler = () => dispatch(todolistsActions.changeTodolistFilter({ id: todolist.id, filter: "all" }));
-
-  const onActiveClickHandler = () =>
-    dispatch(todolistsActions.changeTodolistFilter({ id: todolist.id, filter: "active" }));
-
-  const onCompletedClickHandler = () =>
-    dispatch(todolistsActions.changeTodolistFilter({ id: todolist.id, filter: "completed" }));
+  const changeTodolistFilterHandler = (filter: FilterValuesType) => {
+    dispatch(todolistsActions.changeTodolistFilter({ id: todolist.id, filter }));
+  };
 
   return (
     <>
-      <Button variant={todolist.filter === "all" ? "outlined" : "text"} onClick={onAllClickHandler} color={"inherit"}>
+      <Button
+        variant={todolist.filter === "all" ? "outlined" : "text"}
+        onClick={() => changeTodolistFilterHandler("all")}
+        color={"inherit"}
+      >
         All
       </Button>
       <Button
         variant={todolist.filter === "active" ? "outlined" : "text"}
-        onClick={onActiveClickHandler}
+        onClick={() => changeTodolistFilterHandler("active")}
         color={"primary"}
       >
         Active
       </Button>
       <Button
         variant={todolist.filter === "completed" ? "outlined" : "text"}
-        onClick={onCompletedClickHandler}
+        onClick={() => changeTodolistFilterHandler("completed")}
         color={"secondary"}
       >
         Completed
