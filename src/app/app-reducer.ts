@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { AnyAction } from "redux";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
@@ -23,24 +23,15 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addMatcher(
-        (action: AnyAction) => action.type.endsWith("/pending"),
-        (state) => {
-          state.status = "loading";
-        },
-      )
-      .addMatcher(
-        (action: AnyAction) => action.type.endsWith("/rejected"),
-        (state) => {
-          state.status = "failed";
-        },
-      )
-      .addMatcher(
-        (action: AnyAction) => action.type.endsWith("/fulfilled"),
-        (state) => {
-          state.status = "succeeded";
-        },
-      );
+      .addMatcher(isPending, (state) => {
+        state.status = "loading";
+      })
+      .addMatcher(isRejected, (state) => {
+        state.status = "failed";
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.status = "succeeded";
+      });
   },
 });
 

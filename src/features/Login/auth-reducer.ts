@@ -5,6 +5,7 @@ import { clearTasksAndTodolists } from "common/actions/common.actions";
 import { handleServerAppError } from "common/utils/handleServerAppError";
 import { authAPI, LoginParamsType } from "features/Login/authAPI";
 import { createAppAsyncThunk } from "common/utils";
+import { AnyAction } from "redux";
 
 const slice = createSlice({
   name: "auth",
@@ -13,16 +14,22 @@ const slice = createSlice({
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(login.fulfilled, (state, action) => {
+    builder.addMatcher(
+      (action: AnyAction) => {
+        if (
+          action.type === "auth/login/fulfilled" ||
+          action.type === "auth/logout/fulfilled" ||
+          action.type === "auth/initializeApp/fulfilled"
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      (state, action) => {
         state.isLoggedIn = action.payload.isLoggedIn;
-      })
-      .addCase(logout.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
-      })
-      .addCase(initializeApp.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload.isLoggedIn;
-      });
+      },
+    );
   },
 });
 
@@ -55,10 +62,8 @@ const login = createAppAsyncThunk<
 >(`${slice.name}/login`, async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await authAPI.login(arg);
     if (res.data.resultCode === 0) {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return { isLoggedIn: true };
     } else {
       const isShowAppError = !res.data.fieldsErrors.length;
@@ -79,10 +84,8 @@ const logout = createAppAsyncThunk<
 >(`${slice.name}/logout`, async (_, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await authAPI.logout();
     if (res.data.resultCode === 0) {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
       dispatch(clearTasksAndTodolists({ tasks: {}, todolists: [] }));
       return { isLoggedIn: false };
     } else {
