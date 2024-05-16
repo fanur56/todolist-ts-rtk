@@ -1,7 +1,6 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { IconButton, TextField } from "@mui/material";
 import { AddBox } from "@mui/icons-material";
-import { AppThunk } from "app/store";
 
 type AddItemFormPropsType = {
   addItem: (title: string) => Promise<unknown>;
@@ -14,8 +13,11 @@ export const AddItemForm = React.memo(function ({ addItem, disabled = false }: A
 
   const addItemHandler = () => {
     if (title.trim() !== "") {
-      addItem(title);
-      setTitle("");
+      addItem(title)
+        .then(() => {
+          setTitle("");
+        })
+        .catch((e) => {});
     } else {
       setError("Title is required");
     }

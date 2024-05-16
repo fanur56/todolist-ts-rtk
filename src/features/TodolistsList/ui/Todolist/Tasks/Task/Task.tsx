@@ -16,7 +16,7 @@ type Props = {
 export const Task = React.memo(({ task, todolistId }: Props) => {
   const dispatch = useAppDispatch();
   const removeTaskHandler = () => {
-    dispatch(removeTaskTC(task.id, todolistId));
+    dispatch(removeTaskTC({ taskId: task.id, todolistId }));
   };
 
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {

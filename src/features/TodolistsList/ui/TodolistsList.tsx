@@ -30,7 +30,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 
   const addTodolistCallback = useCallback(
     (title: string) => {
-      return dispatch(addTodolist(title));
+      return dispatch(addTodolist(title)).unwrap();
     },
     [dispatch],
   );

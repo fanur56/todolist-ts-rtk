@@ -71,14 +71,11 @@ const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
   async (_, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await todolistsAPI.getTodolists();
       return { todolists: res.data };
     } catch (e) {
       handleServerNetworkError(e, dispatch);
       return rejectWithValue(null);
-    } finally {
-      dispatch(appActions.setAppStatus({ status: "succeeded" }));
     }
   },
 );
@@ -86,7 +83,6 @@ const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
 const removeTodolist = createAppAsyncThunk<{ id: string }, string>("todo/removeTodolist", async (id, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
     dispatch(
       todolistsActions.changeTodolistEntityStatus({
         id,
@@ -103,8 +99,6 @@ const removeTodolist = createAppAsyncThunk<{ id: string }, string>("todo/removeT
   } catch (e) {
     handleServerNetworkError(e, dispatch);
     return rejectWithValue(null);
-  } finally {
-    dispatch(appActions.setAppStatus({ status: "succeeded" }));
   }
 });
 
@@ -113,10 +107,8 @@ const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
   async (title, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await todolistsAPI.createTodolist(title);
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { todolist: res.data.data.item };
       } else {
         handleServerAppError(res.data, dispatch);
@@ -134,10 +126,8 @@ const changeTodolistTitle = createAppAsyncThunk<{ id: string; title: string }, {
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
-      dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await todolistsAPI.updateTodolist(arg.id, arg.title);
       if (res.data.resultCode === ResultCode.Success) {
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return arg;
       } else {
         handleServerAppError(res.data, dispatch);
