@@ -26,8 +26,20 @@ const slice = createSlice({
       .addMatcher(isPending, (state) => {
         state.status = "loading";
       })
-      .addMatcher(isRejected, (state) => {
+      .addMatcher(isRejected, (state, action: AnyAction) => {
         state.status = "failed";
+        debugger;
+        if (action.payload) {
+          if (
+            action.type.includes("addTodolist") ||
+            action.type.includes("addTask") ||
+            action.type.includes("initializeApp")
+          )
+            return;
+          state.error = action.payload.messages[0];
+        } else {
+          state.error = action.error.message ? action.error.message : "Some error occurred";
+        }
       })
       .addMatcher(isFulfilled, (state) => {
         state.status = "succeeded";
