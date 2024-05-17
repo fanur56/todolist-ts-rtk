@@ -1,4 +1,3 @@
-import { handleServerNetworkError } from "common/utils/handleServerNetworkError";
 import { createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { clearTasksAndTodolists } from "common/actions/common.actions";
